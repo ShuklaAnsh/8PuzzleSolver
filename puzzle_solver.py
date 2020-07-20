@@ -33,6 +33,14 @@ def reconstruct_path(end_state: State):
     return path
 
 
+def print_initial_states():
+    print("Goal State:")
+    goal_state.print_state()
+    print("\nStart State:")
+    start_state.print_state()
+    print()
+
+
 def a_star(h):
     """
     A Star Algorithm implemented via pseudo-code found at:
@@ -50,9 +58,13 @@ def a_star(h):
         open_list.sort(key=lambda x: x.f, reverse=True)
         current = open_list.pop()
 
+        print("Current State:")
+        current.print_state()
+        print()
+
         if current == goal_state:
             return reconstruct_path(current)
-
+        print("Expanded States:")
         for expanded_state in current.possible_moves():
             if expanded_state not in closed_list:
                 closed_list.append(expanded_state)
@@ -61,6 +73,10 @@ def a_star(h):
                     expanded_state.g_score = g_score
                     expanded_state.h_score = h(expanded_state)
                     expanded_state.f = expanded_state.g_score + expanded_state.h_score
+
+                    expanded_state.print_state()
+                    print(f'g={expanded_state.g_score} h={expanded_state.h_score} f={expanded_state.f}\n')
+
                     if expanded_state not in open_list:
                         open_list.append(expanded_state)
     print("no path found")
@@ -74,20 +90,24 @@ if __name__ == '__main__':
     # Assignment input
     # start_state = State([7, 4, 5, 2, empty_space, 6, 8, 3, 1])
     # Test Input 1
-    # start_state = State([1, 4, 7, 2, 5, 8, empty_space, 3, 6])
+    start_state = State([1, 4, 7, 2, 5, 8, empty_space, 3, 6])
     # Test Input 2
     # start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
     # Test Input 3
-    start_state = State([4, 7, 6, 1, empty_space, 5, 2, 8, 3])
+    # start_state = State([4, 7, 6, 1, empty_space, 5, 2, 8, 3])
 
-    print("H1:")
+    print("Finding solution using h() = number of misplaced tiles")
+    print_initial_states()
     h1_path = a_star(h1)
+    print("Solution:")
     for state in h1_path:
         state.print_state()
         print('')
 
-    print("H2:")
+    print("Finding solution using h() = Manhattan Distance between misplaced tiles")
+    print_initial_states()
     h1_path = a_star(h2)
+    print("Solution:")
     for state in h1_path:
         state.print_state()
         print('')
