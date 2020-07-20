@@ -1,4 +1,4 @@
-from modules.state import State, empty_space, List
+from modules.state import State, Grid, empty_space, List
 
 
 def h1(current_state: State):
@@ -9,6 +9,16 @@ def h1(current_state: State):
             continue
         if state_piece != goal_piece:
             h_score += 1
+    return h_score
+
+
+def h2(current_state: State):
+    # h_score_2 = Manhattan Distance between misplaced nodes
+    h_score = 0
+    curr_grid = Grid(current_state.board.copy())
+    for goal_position in goal_grid.positions:
+        curr_pos = curr_grid.get_pos(goal_position.value)
+        h_score += (abs(curr_pos.x - goal_position.x) + abs(curr_pos.y - goal_position.y))
     return h_score
 
 
@@ -59,6 +69,8 @@ def a_star(h):
 
 if __name__ == '__main__':
     goal_state = State([1, 4, 7, 2, 5, 8, 3, 6, empty_space])
+    goal_grid = Grid(goal_state.board.copy())
+
     # Assignment input
     # start_state = State([7, 4, 5, 2, empty_space, 6, 8, 3, 1])
     # Test Input 1
@@ -68,7 +80,14 @@ if __name__ == '__main__':
     # Test Input 3
     start_state = State([4, 7, 6, 1, empty_space, 5, 2, 8, 3])
 
+    print("H1:")
     h1_path = a_star(h1)
+    for state in h1_path:
+        state.print_state()
+        print('')
+
+    print("H2:")
+    h1_path = a_star(h2)
     for state in h1_path:
         state.print_state()
         print('')
