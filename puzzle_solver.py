@@ -33,6 +33,7 @@ def a_star(h):
     """
     g_score = 0
     open_list: List[State] = [start_state]
+    closed_list: List[State] = []
     while len(open_list) > 0:
         g_score += 1
         # Sort open list by f() value of state
@@ -43,13 +44,15 @@ def a_star(h):
             return reconstruct_path(current)
 
         for expanded_state in current.possible_moves():
-            if g_score < expanded_state.g_score:
-                expanded_state.parent_state = current
-                expanded_state.g_score = g_score
-                expanded_state.h_score = h(expanded_state)
-                expanded_state.f = expanded_state.g_score + expanded_state.h_score
-                if expanded_state not in open_list:
-                    open_list.append(expanded_state)
+            if expanded_state not in closed_list:
+                closed_list.append(expanded_state)
+                if g_score < expanded_state.g_score:
+                    expanded_state.parent_state = current
+                    expanded_state.g_score = g_score
+                    expanded_state.h_score = h(expanded_state)
+                    expanded_state.f = expanded_state.g_score + expanded_state.h_score
+                    if expanded_state not in open_list:
+                        open_list.append(expanded_state)
     print("no path found")
     return []
 
@@ -57,11 +60,11 @@ def a_star(h):
 if __name__ == '__main__':
     goal_state = State([1, 4, 7, 2, 5, 8, 3, 6, empty_space])
     # Assignment input
-    start_state = State([7, 4, 5, 2, empty_space, 6, 8, 3, 1])
+    # start_state = State([7, 4, 5, 2, empty_space, 6, 8, 3, 1])
     # Test Input 1
     # start_state = State([1, 4, 7, 2, 5, 8, empty_space, 3, 6])
     # Test Input 2
-    # start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
+    start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
 
     h1_path = a_star(h1)
     for state in h1_path:
