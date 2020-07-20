@@ -64,7 +64,9 @@ if __name__ == '__main__':
     # Test Input 1
     # start_state = State([1, 4, 7, 2, 5, 8, empty_space, 3, 6])
     # Test Input 2
-    start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
+    # start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
+    # Test Input 3
+    start_state = State([4, 7, 6, 1, empty_space, 5, 2, 8, 3])
 
     h1_path = a_star(h1)
     for state in h1_path:
