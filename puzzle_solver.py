@@ -40,6 +40,8 @@ def h2(current_state: State) -> int:
     h_score = 0
     curr_grid: Grid = current_state.generate_grid()
     for goal_position in goal_grid.positions:
+        if goal_position.value == empty_space:
+            continue
         curr_pos = curr_grid.get_pos(goal_position.value)
         h_score += (abs(curr_pos.x - goal_position.x) + abs(curr_pos.y - goal_position.y))
     return h_score
@@ -124,14 +126,16 @@ if __name__ == '__main__':
     goal_state = State([1, 4, 7, 2, 5, 8, 3, 6, empty_space])
     goal_grid: Grid = goal_state.generate_grid()
 
-    # Assignment input
+    # Given Assignment input
     # start_state = State([7, 4, 5, 2, empty_space, 6, 8, 3, 1])
     # Test Input 1
     # start_state = State([1, 4, 7, 2, 5, 8, empty_space, 3, 6])
     # Test Input 2
-    start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
+    # start_state = State([4, empty_space, 7, 1, 5, 8, 2, 3, 6])
     # Test Input 3
-    # start_state = State([4, 7, 6, 1, empty_space, 5, 2, 8, 3])
+    start_state = State([4, 7, 6, 1, empty_space, 5, 2, 8, 3])
+    # Handwritten Assignment Input
+    # start_state = State([1, 4, 7, 2, 8, empty_space, 3, 5, 6])
 
     print("Finding solution using h() = number of misplaced tiles")
     print_initial_states()
